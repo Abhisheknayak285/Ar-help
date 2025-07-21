@@ -506,7 +506,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            padding: .6em .5em .5em .5em;
+            padding: .6em .5em .7em .5em; /* Adjusted bottom padding to move up */
             background: var(--header-bg);
             border-top: 1px solid var(--border-color);
             box-shadow: 0 -1.5px 14px var(--shadow-color);
@@ -834,7 +834,7 @@
                 <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="m22 2-7 20-4-9-9-4 20-7Z"/><path d="M15 7L6 16"/></svg>
             </button>
         </div>
-        </div>
+    </div>
 </div>
 <div id="myModal" class="modal">
     <div class="modal-content">
@@ -862,9 +862,7 @@
 
     let chatHistoryList = JSON.parse(localStorage.getItem('blackbox_history') || '[]');
     let currentSession = [];
-    // Removed selectedFile variable as image upload is removed
 
-    // Perplexity AI API Key - NOW DIRECTLY EMBEDDED
     const PERPLEXITY_API_KEY = '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'; 
     const PERPLEXITY_API_URL = 'https://api.perplexity.ai/chat/completions';
     const PERPLEXITY_MODEL = 'sonar-pro'; 
@@ -899,7 +897,7 @@
         return `${h}:${m}`;
     }
 
-    function appendMessage(sender, text) { // Removed imageUrl parameter
+    function appendMessage(sender, text) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'ai-message');
 
@@ -911,7 +909,7 @@
         messagesContainer.appendChild(messageElement);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-        currentSession.push({ sender, text, ts: getCurrentTime() }); // Removed imageUrl from session storage
+        currentSession.push({ sender, text, ts: getCurrentTime() });
         localStorage.setItem('blackbox_current', JSON.stringify(currentSession));
     }
 
@@ -1034,14 +1032,14 @@
         }
 
         appendMessage('user', messageText);
-        callAI(messageText); // Removed imageUrl parameter
+        callAI(messageText);
 
         userInput.value = '';
         setTyping(true);
-        sendButton.disabled = userInput.disabled = true; // Removed file input related disablings
+        sendButton.disabled = userInput.disabled = true;
     }
 
-    async function callAI(userMessage) { // Removed imageUrl parameter
+    async function callAI(userMessage) {
         try {
             const payload = {
                 model: PERPLEXITY_MODEL,
@@ -1124,7 +1122,7 @@
             chatHistoryList.forEach((historyItem, index) => {
                 const button = document.createElement("button");
                 button.className = "history-session-card-dropdown";
-                button.textContent = `${index + 1}. ${historyItem.title} // ${historyItem.time}`; // Added numbering
+                button.textContent = `${index + 1}. ${historyItem.title} // ${historyItem.time}`;
                 button.onclick = function() {
                     messagesContainer.innerHTML = '';
                     historyItem.session.forEach(message => appendMessageDirect(message));
@@ -1173,12 +1171,15 @@
 
     window.onload = function () {
         const savedTheme = localStorage.getItem('theme');
+        // Set theme switch to checked (dark) by default, then apply
+        themeSwitch.checked = true; // Set to true for dark mode
+        applyTheme(true); // Apply dark theme
+
+        // If a theme was explicitly saved as 'light' before, override to light
+        // This makes dark the default for new visits, but respects a user's previous light choice
         if (savedTheme === 'light') {
             themeSwitch.checked = false;
             applyTheme(false);
-        } else {
-            themeSwitch.checked = true;
-            applyTheme(true);
         }
 
         currentSession = JSON.parse(localStorage.getItem('blackbox_current') || '[]');
