@@ -185,6 +185,8 @@
             border: none;
             transition: background .3s;
             box-sizing: border-box;
+            /* Ensure content above input area is properly spaced */
+            padding-bottom: 90px; /* Adjust based on input-area height + desired buffer */
         }
 
         #chat-header {
@@ -391,7 +393,8 @@
         #messages-container {
             flex: 1;
             overflow-y: auto;
-            padding: 1em 0.8em 70px 0.8em;
+            /* Adjust padding-bottom to ensure messages don't go under fixed input area */
+            padding: 1em 0.8em 100px 0.8em; /* Increased bottom padding */
             display: flex;
             flex-direction: column;
             gap: 0.9em;
@@ -506,7 +509,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            padding: .6em .5em 1em .5em; /* Adjusted bottom padding to move up more */
+            padding: .6em .5em 1.5em .5em; /* INCREASED bottom padding to move it up MORE */
             background: var(--header-bg);
             border-top: 1px solid var(--border-color);
             box-shadow: 0 -1.5px 14px var(--shadow-color);
@@ -524,7 +527,7 @@
             width: 100%;
             background: var(--input-bg);
             border: 1px solid var(--border-color);
-            border-radius: 99em;
+            border-radius: 99em; /* Remains circular/pill shape */
             align-items: center;
             overflow: hidden;
             gap: 2px;
@@ -722,7 +725,7 @@
                 padding: 0 1em;
             }
             #messages-container {
-                padding: 0.8em 0.5em 70px 0.5em;
+                padding: 0.8em 0.5em 100px 0.5em; /* Adjusted padding-bottom for mobile */
                 font-size: 0.95em;
             }
             #chat-container,
@@ -736,7 +739,7 @@
                 max-width: 90vw;
             }
             #input-area {
-                padding: .5em .4em .7em .4em; /* Adjusted bottom padding for mobile */
+                padding: .5em .4em 1em .4em; /* Further increased bottom padding for mobile */
             }
             #user-input {
                 font-size: 0.95em;
@@ -780,7 +783,7 @@
                 font-size: 0.95em;
             }
             #input-area {
-                padding-bottom: env(safe-area-inset-bottom, 10px); /* Increased for safe area too */
+                padding-bottom: env(safe-area-inset-bottom, 20px); /* Even more for critical mobile devices */
             }
         }
 
