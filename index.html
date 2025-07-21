@@ -506,7 +506,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            padding: .6em .5em .7em .5em; /* Adjusted bottom padding to move up */
+            padding: .6em .5em 1em .5em; /* Adjusted bottom padding to move up more */
             background: var(--header-bg);
             border-top: 1px solid var(--border-color);
             box-shadow: 0 -1.5px 14px var(--shadow-color);
@@ -736,7 +736,7 @@
                 max-width: 90vw;
             }
             #input-area {
-                padding: .5em .4em .4em .4em;
+                padding: .5em .4em .7em .4em; /* Adjusted bottom padding for mobile */
             }
             #user-input {
                 font-size: 0.95em;
@@ -780,7 +780,7 @@
                 font-size: 0.95em;
             }
             #input-area {
-                padding-bottom: env(safe-area-inset-bottom, 5px);
+                padding-bottom: env(safe-area-inset-bottom, 10px); /* Increased for safe area too */
             }
         }
 
@@ -1085,7 +1085,8 @@
         } finally {
             setTyping(false);
             sendButton.disabled = userInput.disabled = false;
-            userInput.focus();
+            userInput.blur(); // Dismiss the keyboard
+            // No need to focus on input immediately after blurring; user can tap again
         }
     }
 
@@ -1171,15 +1172,13 @@
 
     window.onload = function () {
         const savedTheme = localStorage.getItem('theme');
-        // Set theme switch to checked (dark) by default, then apply
-        themeSwitch.checked = true; // Set to true for dark mode
-        applyTheme(true); // Apply dark theme
-
-        // If a theme was explicitly saved as 'light' before, override to light
-        // This makes dark the default for new visits, but respects a user's previous light choice
+        // Default to dark theme if no preference is saved or if it was explicitly dark
         if (savedTheme === 'light') {
             themeSwitch.checked = false;
             applyTheme(false);
+        } else {
+            themeSwitch.checked = true; // Ensures dark mode is the default
+            applyTheme(true);
         }
 
         currentSession = JSON.parse(localStorage.getItem('blackbox_current') || '[]');
@@ -1191,7 +1190,8 @@
             appendMessage('ai','AR HELP: HOW CAN I HELP YOU ?'); 
         }
         setTyping(false);
-        userInput.focus();
+        // Do not auto-focus input on load, to avoid keyboard popping up immediately
+        // userInput.focus(); 
     };
 </script>
 </body>
